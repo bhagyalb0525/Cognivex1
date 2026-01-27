@@ -9,6 +9,13 @@ let sessionStats = {
     sum: {},
 };
 
+// Generate unique session ID
+function generateSessionId() {
+    return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+let currentSessionId = generateSessionId();
+
 function timeDiffSeconds(t1, t2) {
     return Math.abs(new Date(t2) - new Date(t1)) / 1000;
 }
@@ -129,6 +136,7 @@ function getSessionSummary() {
         );
     }
 
+    summary.session_id = currentSessionId;
     summary.total_windows = sessionStats.windows;
     summary.generated_at = new Date().toISOString();
 
@@ -144,7 +152,8 @@ function resetSession() {
         windows: 0,
         sum: {},
     };
-    console.log("🔄 Session stats reset");
+    currentSessionId = generateSessionId();
+    console.log("🔄 Session stats reset, new session ID:", currentSessionId);
 }
 
 // ----------------------------
